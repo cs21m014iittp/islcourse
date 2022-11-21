@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.metrics import homogeneity_score,completeness_score,v_measure_score,accuracy_score, precision_score,recall_score,f1_score,roc_auc_score
+from sklearn.metrics import make_scorer,homogeneity_score,completeness_score,v_measure_score,accuracy_score, precision_score,recall_score,f1_score,roc_auc_score
 from torch import nn
 from torchvision.transforms import ToTensor
 import torch.nn.functional as Fun
@@ -135,7 +135,7 @@ def get_paramgrid_rf():
   # write your code here...
   return rf_param_grid
 
-def perform_gridsearch_cv_multimetric(model1=None, param_grid=None, cv=5, X=None, y=None, metrics=['accuracy','roc_auc']):
+def perform_gridsearch_cv_multimetric(model=None, param_grid=None, cv=5, X=None, y=None, metrics=['accuracy','roc_auc']):
   
   # you need to invoke sklearn grid search cv function
   # refer to sklearn documentation
@@ -151,18 +151,46 @@ def perform_gridsearch_cv_multimetric(model1=None, param_grid=None, cv=5, X=None
   
   # refer to cv_results_ dictonary
   # return top 1 score for each of the metrics given, in the order given in metrics=... list
+  classes=set()
+  for i in y:
+      classes.add(i)
+  num_classes = len(classes)
   
   top1_scores = []
   
-  if X.ndim > 2:
-      n_samples = len(X)
-      X= X.reshape((n_samples, -1))
-      
-  for score in metrics:
-      grid_search_cv = GridSearchCV(model1,param_grid,scoring = score,cv=cv)
-      grid_search_cv.fit(X,y)
-      top1_scores.append(grid_search_cv.best_estimator_.get_params())
-      
+  if num_classes<=2:
+      if X.ndim > 2:
+          n_samples = len(X)
+          X= X.reshape((n_samples, -1))
+      for score in metrics:
+          grid_search_cv = GridSearchCV(model,param_grid,scoring = score,cv=cv)
+          grid_search_cv.fit(X,y)
+          top1_scores.append(grid_search_cv.best_estimator_.get_params())
+  else:
+      if X.ndim > 2:
+          n_samples = len(X)
+          X= X.reshape((n_samples, -1))
+
+      for score in metrics:
+          scorer_ = None
+          
+          if score.find('roc_auc')>=0:
+              if score.find('ovr')>=0:
+                  scorer_ = make_scorer(score,average='macro',multi_class='ovr')
+              else:
+                  scorer_ = make_scorer(score,average='macro',multi_class='ovo')  
+          elif score.find('macro')>=0: 
+              scorer_ = make_scorer(score,average='macro')
+          elif score.find('micro')>=0: 
+              scorer_ = make_scorer(score,average='micro')
+          else:
+              scorer_ = make_scorer(score,avergae='macro')
+
+
+          grid_search_cv = GridSearchCV(model,param_grid,scoring = score,cv=cv)
+          grid_search_cv.fit(X,y)
+          top1_scores.append(grid_search_cv.best_estimator_.get_params())
+
   return top1_scores
 
 
