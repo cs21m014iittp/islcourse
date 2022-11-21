@@ -86,7 +86,7 @@ def build_rf_model(X=None, y=None):
   return rf_model
 
 
-def get_metrics(model1,X,y):
+def get_metrics(model1=None,X=None,y=None):
   # Obtain accuracy, precision, recall, f1score, auc score - refer to sklearn metrics
   
   if X.ndim > 2:
@@ -97,7 +97,7 @@ def get_metrics(model1,X,y):
       classes.add(i)
   num_classes = len(classes)
 
-  ypred = model.predict(X)
+  ypred = model1.predict(X)
   acc, prec, rec, f1, auc = 0,0,0,0,0
   # write your code here...
   acc = accuracy_score(y,ypred)
