@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import sklearn
-from sklearn.datasets import make_blobs,make_circles
+from sklearn.datasets import make_blobs,make_circles,load_digits
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
@@ -26,6 +26,14 @@ def get_data_circles(n_points=100):
   # write your code ...
   return X,y
 
+def get_data_mnist():
+  # write your code here
+  # Refer to sklearn data sets
+  data = load_digits()
+  X = data.images
+  y = data.target
+  # write your code ...
+  return X,y
 
 def build_kmeans(X=None,k=10):
   
