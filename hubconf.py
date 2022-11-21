@@ -253,6 +253,6 @@ def train_combined_encdec_predictor(mynn,X,y, epochs=11):
       ypred, Xencdec = mynn(X)
       lval = mynn.loss_fn(X,y,ypred,Xencdec)
       lval.backward()
-      optimzer.step()
+      optimizer.step()
     
   return mynn
