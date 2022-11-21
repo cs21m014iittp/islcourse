@@ -187,7 +187,7 @@ def perform_gridsearch_cv_multimetric(model=None, param_grid=None, cv=5, X=None,
               scorer_ = make_scorer(score,avergae='macro')
 
 
-          grid_search_cv = GridSearchCV(model,param_grid,scoring = score,cv=cv)
+          grid_search_cv = GridSearchCV(model,param_grid,scoring = scorer_,cv=cv)
           grid_search_cv.fit(X,y)
           top1_scores.append(grid_search_cv.best_estimator_.get_params())
 
