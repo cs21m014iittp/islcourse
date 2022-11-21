@@ -86,7 +86,7 @@ def build_rf_model(X=None, y=None):
   return rf_model
 
 
-def get_metrics(model=None,X=None,y=None):
+def get_metrics(model,X,y):
   # Obtain accuracy, precision, recall, f1score, auc score - refer to sklearn metrics
   
   if X.ndim > 2:
