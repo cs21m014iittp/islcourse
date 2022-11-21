@@ -237,3 +237,19 @@ def get_loss_on_single_point(mynn,x0,y0):
     lossval = mynn.loss_fn(x0,y0,y_pred,xencdec)
     # the lossval should have grad_fn attribute set
     return lossval
+
+def train_combined_encdec_predictor(mynn,X,y, epochs=11):
+  # X, y are provided as tensor
+  # perform training on the entire data set (no batches etc.)
+  # for each epoch, update weights
+  
+  optimizer = torch.optim.SGD(mynn.parameters(), lr=0.01)
+  
+  for i in range(epochs):
+      optimizer.zero_grad()
+      ypred, Xencdec = mynn(X)
+      lval = mynn.loss_fn(X,y,ypred,Xencdec)
+      lval.backward()
+      optimzer.step()
+    
+  return mynn
