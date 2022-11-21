@@ -4,10 +4,13 @@ import sklearn
 from sklearn.datasets import make_blobs,make_circles,load_digits
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
-from sklearn.metrics import homogeneity_score,completeness_score,v_measure_score
+from sklearn.metrics import homogeneity_score,completeness_score,v_measure_score,accuracy_score, precision_score,recall_score,f1_score,roc_auc_score
+from torch import nn
+from torchvision.transforms import ToTensor
+import torch.nn.functional as Fun
 
 
 
