@@ -6,6 +6,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.metrics import homogeneity_score,completeness_score,v_measure_score
 
 
 
@@ -41,3 +43,12 @@ def assign_kmeans(km=None,X=None):
   # write your code ...
   ypred = km.predict(X)
   return ypred
+
+def compare_clusterings(ypred_1=None,ypred_2=None):
+  # refer to sklearn documentation for homogeneity, completeness and vscore
+  h,c,v = 0,0,0 # you need to write your code to find proper values
+
+  h = homogeneity_score(ypred_1,ypred_2)
+  c = completeness_score(ypred_1,ypred_2)
+  v = v_measure_score(ypred_1,ypred_2)
+  return h,c,v
