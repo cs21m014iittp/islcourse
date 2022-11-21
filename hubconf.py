@@ -12,7 +12,7 @@ from torch import nn
 from torchvision.transforms import ToTensor
 import torch.nn.functional as Fun
 
-
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 def get_data_blobs(n_points=100):
   # write your code here
