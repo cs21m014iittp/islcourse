@@ -60,3 +60,24 @@ def compare_clusterings(ypred_1=None,ypred_2=None):
   c = completeness_score(ypred_1,ypred_2)
   v = v_measure_score(ypred_1,ypred_2)
   return h,c,v
+
+
+def build_lr_model(X=None, y=None):
+  lr_model = LogisticRegression()
+  # write your code...
+  # Build logistic regression, refer to sklearn
+  if X.ndim > 2:
+      n_samples = len(X)
+      X= X.reshape((n_samples, -1))
+  lr_model.fit(X,y)
+  return lr_model
+
+def build_rf_model(X=None, y=None):
+  rf_model = RandomForestClassifier()
+  # write your code...
+  # Build Random Forest classifier, refer to sklearn
+  if X.ndim > 2:
+      n_samples = len(X)
+      X= X.reshape((n_samples, -1))
+  rf_model.fit(X,y)
+  return rf_model
