@@ -111,7 +111,7 @@ def get_metrics(model1=None,X=None,y=None):
     prec = precision_score(y,ypred,average='macro')
     recall = recall_score(y,ypred,average='macro')
     f1 = f1_score(y,ypred,average='macro')
-    pred_prob = model.predict_proba(X)
+    pred_prob = model1.predict_proba(X)
     roc_auc_score(y, pred_prob, multi_class='ovr')
     #auc = roc_auc_score(y,ypred,average='macro',multi_class='ovr')
 
